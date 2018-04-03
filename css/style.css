@@ -1,0 +1,113 @@
+
+/*
+ * GENERAL STUFF
+ * ------------- 
+ */
+
+@font-face {
+    font-family: "Comic Runes";
+    src: url("./../../../../../Library/Fonts/ComicRunes.otf") format("otf"),
+   }
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: black;
+    color: white;
+}
+
+
+
+
+/*
+ * HEADING
+ * -------
+ */
+
+h1 {
+    font-family: "Comic Runes", sans-serif;
+    font-weight: lighter;
+    letter-spacing: 0.6em;
+    text-align: center;
+    line-height: 1.5em;
+    margin: 15px 0;
+}
+
+.duri {
+    font-size: 2em;
+    color: red;
+    font-weight: bold;
+}
+
+
+
+
+/*
+ * GAME BOARD
+ * ----------
+ */
+
+.game-border {
+    min-width: 502px;
+    min-height: 502px;
+    padding: 10px;
+    background: url( "./../images/canvas-border-500.png" );
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+}
+
+.game-field {
+    background-color: white;
+    width: 480px;
+    height: 478px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.center-row {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.center-row img {
+    width: 18vw;
+    height: 18vw;
+}
+
+
+
+
+/*
+ * TILES CLASSES
+ * ------------- 
+ */
+
+.tile {
+    min-width: 5.26%;
+    min-height: 5.26%;
+    background-image: url("./../images/ground/ground.png");
+    /* border: 1px solid black; */
+    box-sizing: border-box;
+    flex: 1;
+}
+
+.rock {
+    background-image: url("./../images/rock/rock3.png");
+    background-position: center;
+    background-size: cover;
+}
+
+.unvisited {
+    background-image: url("./../images/ground/unvisited-ground.png");
+}
+
+.player {
+    background-color: rgb(218, 137, 32);
+    background-image: none;
+}
