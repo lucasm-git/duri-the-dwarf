@@ -212,6 +212,9 @@ function updateBoard() {
             if( player.board[i][j] == "V" ) {
                 $( "#" + i + "-" + j ).addClass( "visited" );
             }
+            if( player.board[i][j] == "VR" ) {
+                $( "#" + i + "-" + j ).addClass( "v-rock" );
+            }
         }
     }
     removeOos();
@@ -235,10 +238,46 @@ function removeOos() {
     $( "#" + (player.player.y+1) + "-" + (player.player.x+1) ).removeClass( "oos" );
     $( "#" + (player.player.y-1) + "-" + (player.player.x+1) ).removeClass( "oos" );
     $( "#" + (player.player.y+1) + "-" + (player.player.x-1) ).removeClass( "oos" );
+
+    if( $( "#" + (player.player.y-1) + "-" + (player.player.x) ).hasClass( "rock" ) ) {
+        $( "#" + (player.player.y-1) + "-" + (player.player.x) ).addClass( "v-rock" );
+    }
+    if( $( "#" + (player.player.y-2) + "-" + (player.player.x) ).hasClass( "rock" ) ) {
+        $( "#" + (player.player.y-2) + "-" + (player.player.x) ).addClass( "v-rock" );
+    }
+    if( $( "#" + (player.player.y+1) + "-" + (player.player.x) ).hasClass( "rock" ) ) {
+        $( "#" + (player.player.y+1) + "-" + (player.player.x) ).addClass( "v-rock" );
+    }
+    if( $( "#" + (player.player.y+2) + "-" + (player.player.x) ).hasClass( "rock" ) ) {
+        $( "#" + (player.player.y+2) + "-" + (player.player.x) ).addClass( "v-rock" );
+    }
+    if( $( "#" + (player.player.y) + "-" + (player.player.x-1) ).hasClass( "rock" ) ) {
+        $( "#" + (player.player.y) + "-" + (player.player.x-1) ).addClass( "v-rock" );
+    }
+    if( $( "#" + (player.player.y) + "-" + (player.player.x-2) ).hasClass( "rock" ) ) {
+        $( "#" + (player.player.y) + "-" + (player.player.x-2) ).addClass( "v-rock" );
+    }
+    if( $( "#" + (player.player.y) + "-" + (player.player.x+1) ).hasClass( "rock" ) ) {
+        $( "#" + (player.player.y) + "-" + (player.player.x+1) ).addClass( "v-rock" );
+    }
+    if( $( "#" + (player.player.y) + "-" + (player.player.x+2) ).hasClass( "rock" ) ) {
+        $( "#" + (player.player.y) + "-" + (player.player.x+2) ).addClass( "v-rock" );
+    }
+    if( $( "#" + (player.player.y-1) + "-" + (player.player.x-1) ).hasClass( "rock" ) ) {
+        $( "#" + (player.player.y-1) + "-" + (player.player.x-1) ).addClass( "v-rock" );
+    }
+    if( $( "#" + (player.player.y+1) + "-" + (player.player.x+1) ).hasClass( "rock" ) ) {
+        $( "#" + (player.player.y+1) + "-" + (player.player.x+1) ).addClass( "v-rock" );
+    }
+    if( $( "#" + (player.player.y-1) + "-" + (player.player.x+1) ).hasClass( "rock" ) ) {
+        $( "#" + (player.player.y-1) + "-" + (player.player.x+1) ).addClass( "v-rock" );
+    }
+    if( $( "#" + (player.player.y+1) + "-" + (player.player.x-1) ).hasClass( "rock" ) ) {
+        $( "#" + (player.player.y+1) + "-" + (player.player.x-1) ).addClass( "v-rock" );
+    }
 }
 
-
-console.log( $( "#" + (player.player.y-1) + "-" + (player.player.x) ) );
+// console.log( $( "#" + (player.player.y-1) + "-" + (player.player.x) ) );
 
 
 /////////////////////////////////////////////////

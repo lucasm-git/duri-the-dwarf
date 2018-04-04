@@ -98,7 +98,7 @@ h1 {
 }
 
 .rock {
-    background-image: url("./../images/rock/rock2test.png");
+    background-image: url("./../images/rock/rock.png");
     background-position: center;
     background-size: cover;
 }
@@ -133,6 +133,11 @@ h1 {
     background-size: cover;
 }
 
+.v-rock {
+    background-image: url("./../images/rock/v-rock.png");
+    background-position: center;
+    background-size: cover;
+}
 
 
 
