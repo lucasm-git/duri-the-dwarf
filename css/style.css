@@ -107,25 +107,28 @@ h1 {
     background-image: url("./../images/ground/unvisited-ground.png");
 }
 
-.oos {
-    background-image: url("./../images/ground/oos-ground.png");
-}
-
-.player {
-    /* background-color: rgb(218, 137, 32); */
-    background-image: url("./../images/dwarf/dwarf-player.png");
-    background-position: center;
-    background-size: cover;
-}
-
 .treasure {
     background-image: url("./../images/treasure/treasure.png");
     background-position: center;
     background-size: cover;
 }
 
+.oos {
+    background-image: url("./../images/ground/oos-ground.png");
+}
+
+.visited {
+    background-image: url("./../images/ground/ground.png");
+}
+
 .entrance {
     background-image: url("./../images//ladders/ladder3.png");
+    background-position: center;
+    background-size: cover;
+}
+
+.player {
+    background-image: url("./../images/dwarf/dwarf-player.png");
     background-position: center;
     background-size: cover;
 }

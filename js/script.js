@@ -62,7 +62,7 @@ Game.prototype.moveUp = function() {
     else {
         console.log( "Player moved up!" );
         this.player.y = this.player.y - 1;
-        this.board[this.player.y][this.player.x] = "P";        
+        this.board[this.player.y][this.player.x] = "P";
         this.board[this.player.y + 1][this.player.x] = "V";
     }
     $( ".movements-left" ).text( moveCounter );
@@ -165,7 +165,7 @@ body.onkeydown = function() {
     };
 
     updateBoard();
-    // removeOos();
+    removeOos();
     
 };
 
@@ -190,7 +190,6 @@ for( var i = 0; i < 19; i++ ) {
 function updateBoard() {
     $( ".tile" ).removeClass( "player" );
     $( ".tile" ).removeClass( "unvisited" );
-    $( ".tile" ).addClass( "oos" );
     
     for( var i = 0; i < 19; i++ ) {
         for( var j = 0; j < 19; j++ ) {
@@ -210,60 +209,36 @@ function updateBoard() {
             if( player.board[i][j] == "E" ) {
                 $( "#" + i + "-" + j ).addClass( "entrance" );
             }
-            if( player.board[i+1][j] == "P" ) {
-                $( "#" + i + "-" + j ).removeClass( "oos" );
-            }
-            if( player.board[i+2][j] == "P" ) {
-                $( "#" + i + "-" + j ).removeClass( "oos" );
-            }
-            if( player.board[i][j+1] == "P" ) {
-                $( "#" + i + "-" + j ).removeClass( "oos" );
-            }
-            if( player.board[i][j+2] == "P" ) {
-                $( "#" + i + "-" + j ).removeClass( "oos" );
-            }
-            if( player.board[i+1][j+1] == "P" ) {
-                $( "#" + i + "-" + j ).removeClass( "oos" );
-            }
             if( player.board[i][j] == "V" ) {
-                $( "#" + i + "-" + j ).removeClass( "oos" );
+                $( "#" + i + "-" + j ).addClass( "visited" );
             }
-            // $( "#" + i + "-" + j ).removeClass( "oos" );
-            // $( "#" + i-1 + "-" + j ).removeClass( "oos" );
-            // $( "#" + i-2 + "-" + j ).removeClass( "oos" );
-            // $( "#" + i+1 + "-" + j ).removeClass( "oos" );
-            // $( "#" + i+2 + "-" + j ).removeClass( "oos" );
-            // $( "#" + i + "-" + j-1 ).removeClass( "oos" );
-            // $( "#" + i + "-" + j-2 ).removeClass( "oos" );
-            // $( "#" + i + "-" + j+1 ).removeClass( "oos" );
-            // $( "#" + i + "-" + j+2 ).removeClass( "oos" );
-            // $( "#" + i-1 + "-" + j-1 ).removeClass( "oos" );
-            // $( "#" + i-1 + "-" + j+1 ).removeClass( "oos" );
-            // $( "#" + i+1 + "-" + j-1 ).removeClass( "oos" );
-            // $( "#" + i+1 + "-" + j+1 ).removeClass( "oos" );
         }
     }
+    removeOos();
 }
 updateBoard();
 
-// function removeOos() {
-//     player.board[player.y][player.x].removeClass( "oos" );
-//     player.board[player.y-1][player.x].removeClass( "oos" );
-//     player.board[player.y-2][player.x].removeClass( "oos" );
-//     player.board[player.y+1][player.x].removeClass( "oos" );
-//     player.board[player.y+2][player.x].removeClass( "oos" );
-//     player.board[player.y][player.x-1].removeClass( "oos" );
-//     player.board[player.y][player.x-2].removeClass( "oos" );
-//     player.board[player.y][player.x+1].removeClass( "oos" );
-//     player.board[player.y][player.x+2].removeClass( "oos" );
-//     player.board[player.y-1][player.x-1].removeClass( "oos" );
-//     player.board[player.y-1][player.x+1].removeClass( "oos" );
-//     player.board[player.y+1][player.x-1].removeClass( "oos" );
-//     player.board[player.y+1][player.x+1].removeClass( "oos" );
-// }
-// removeOos();
+
+function removeOos() {
+    $( ".tile" ).addClass( "oos" );
+
+    $( "#" + (player.player.y) + "-" + (player.player.x) ).removeClass( "oos" );
+    $( "#" + (player.player.y-1) + "-" + (player.player.x) ).removeClass( "oos" );
+    $( "#" + (player.player.y-2) + "-" + (player.player.x) ).removeClass( "oos" );
+    $( "#" + (player.player.y+1) + "-" + (player.player.x) ).removeClass( "oos" );
+    $( "#" + (player.player.y+2) + "-" + (player.player.x) ).removeClass( "oos" );
+    $( "#" + (player.player.y) + "-" + (player.player.x-1) ).removeClass( "oos" );
+    $( "#" + (player.player.y) + "-" + (player.player.x-2) ).removeClass( "oos" );
+    $( "#" + (player.player.y) + "-" + (player.player.x+1) ).removeClass( "oos" );
+    $( "#" + (player.player.y) + "-" + (player.player.x+2) ).removeClass( "oos" );
+    $( "#" + (player.player.y-1) + "-" + (player.player.x-1) ).removeClass( "oos" );
+    $( "#" + (player.player.y+1) + "-" + (player.player.x+1) ).removeClass( "oos" );
+    $( "#" + (player.player.y-1) + "-" + (player.player.x+1) ).removeClass( "oos" );
+    $( "#" + (player.player.y+1) + "-" + (player.player.x-1) ).removeClass( "oos" );
+}
 
 
+console.log( $( "#" + (player.player.y-1) + "-" + (player.player.x) ) );
 
 
 /////////////////////////////////////////////////
