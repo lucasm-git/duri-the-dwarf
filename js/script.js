@@ -3,6 +3,7 @@
 
 // Having one tile prototype, that will have variations :
 //      U - empty tile (unvisited)
+//      V - empty tile (visited)
 //      R - rock tile
 //      P - player
 //      T - treasure
@@ -14,25 +15,25 @@
 
 function Game() {
     this.board = [
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "R", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "P", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"],
-        ["U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U", "U"]
+        ["U", "R", "U", "U", "U", "R", "U", "R", "U", "U", "U", "U", "R", "U", "U", "U", "U", "U", "R"],
+        ["U", "R", "U", "U", "U", "U", "U", "R", "U", "R", "U", "U", "R", "U", "U", "R", "U", "U", "R"],
+        ["U", "U", "U", "R", "U", "R", "U", "R", "U", "R", "R", "U", "R", "U", "R", "U", "R", "U", "R"],
+        ["U", "U", "R", "U", "U", "R", "U", "U", "U", "R", "R", "U", "R", "T", "R", "U", "R", "U", "U"],
+        ["U", "U", "R", "U", "U", "R", "U", "U", "R", "U", "U", "U", "R", "R", "R", "U", "R", "R", "U"],
+        ["U", "R", "R", "U", "U", "R", "U", "R", "U", "U", "R", "U", "U", "U", "R", "U", "U", "U", "U"],
+        ["U", "R", "R", "R", "U", "R", "U", "U", "U", "U", "U", "R", "R", "U", "U", "U", "R", "R", "R"],
+        ["U", "R", "U", "U", "U", "R", "U", "U", "R", "R", "U", "U", "R", "U", "U", "R", "U", "U", "U"],
+        ["U", "U", "U", "U", "U", "R", "U", "R", "U", "U", "U", "U", "U", "R", "U", "U", "U", "R", "U"],
+        ["U", "U", "R", "R", "R", "R", "U", "R", "U", "P", "U", "R", "U", "R", "U", "R", "R", "R", "U"],
+        ["U", "U", "U", "U", "U", "R", "U", "R", "U", "U", "U", "R", "U", "U", "U", "R", "R", "U", "U"],
+        ["R", "R", "R", "R", "U", "R", "U", "U", "U", "U", "R", "R", "R", "R", "R", "U", "U", "U", "R"],
+        ["U", "U", "U", "U", "U", "U", "R", "R", "U", "U", "U", "R", "R", "U", "U", "U", "U", "R", "U"],
+        ["U", "R", "R", "R", "R", "U", "U", "R", "R", "U", "U", "U", "U", "U", "U", "R", "U", "U", "R"],
+        ["U", "U", "R", "R", "R", "U", "U", "R", "U", "U", "R", "R", "R", "R", "U", "R", "U", "U", "R"],
+        ["U", "U", "U", "R", "R", "U", "U", "R", "U", "R", "R", "U", "U", "U", "U", "R", "U", "R", "U"],
+        ["R", "U", "U", "U", "U", "U", "U", "U", "U", "R", "R", "U", "R", "U", "U", "R", "U", "R", "U"],
+        ["R", "R", "U", "R", "R", "U", "R", "R", "U", "U", "U", "U", "U", "R", "U", "R", "U", "U", "U"],
+        ["R", "R", "U", "U", "U", "R", "U", "U", "U", "U", "R", "R", "U", "U", "R", "R", "U", "R", "U"]
         ];
     this.player = {
         y: 9,
@@ -54,12 +55,18 @@ Game.prototype.moveUp = function() {
     else if(this.board[this.player.y - 1][this.player.x] === "R" ) {
         console.log( "Can't touch this!" );
     }
+    else if(this.board[this.player.y - 1][this.player.x] === "T" ) {
+        alert("Yeehah!\nYou found the treasure!");
+        location.href = "file:///Users/ingvar/Documents/Ironhack/3.Projects/1.Browser-game/index.html";
+    }
     else {
         console.log( "Player moved up!" );
         this.player.y = this.player.y - 1;
         this.board[this.player.y][this.player.x] = "P";        
         this.board[this.player.y + 1][this.player.x] = "V";
     }
+    $( ".movements-left" ).text( moveCounter );
+    this.board[9][9] = "E";
 };
 
 Game.prototype.moveDown = function() {
@@ -69,12 +76,18 @@ Game.prototype.moveDown = function() {
     else if(this.board[this.player.y + 1][this.player.x] === "R" ) {
         console.log( "Can't touch this!" );
     }
+    else if(this.board[this.player.y + 1][this.player.x] === "T" ) {
+        alert("Yeehah!\nYou found the treasure!");
+        location.href = "file:///Users/ingvar/Documents/Ironhack/3.Projects/1.Browser-game/index.html";
+    }
     else {
         console.log( "Player moved down!" );
         this.player.y = this.player.y + 1;
         this.board[this.player.y][this.player.x] = "P";    
         this.board[this.player.y - 1][this.player.x] = "V";
     }
+    $( ".movements-left" ).text( moveCounter );
+    this.board[9][9] = "E";
 };
 
 Game.prototype.moveLeft = function() {
@@ -84,12 +97,18 @@ Game.prototype.moveLeft = function() {
     else if(this.board[this.player.y][this.player.x - 1] === "R" ) {
         console.log( "Can't touch this!" );
     }
+    else if(this.board[this.player.y][this.player.x - 1] === "T" ) {
+        alert("Yeehah!\nYou found the treasure!");
+        location.href = "file:///Users/ingvar/Documents/Ironhack/3.Projects/1.Browser-game/index.html";
+    }
     else {
         console.log( "Player moved left!" );
         this.player.x = this.player.x - 1;
         this.board[this.player.y][this.player.x] = "P";    
         this.board[this.player.y][this.player.x + 1] = "V";
     }
+    $( ".movements-left" ).text( moveCounter );
+    this.board[9][9] = "E";
 };
 
 Game.prototype.moveRight = function() {
@@ -99,12 +118,18 @@ Game.prototype.moveRight = function() {
     else if(this.board[this.player.y][this.player.x + 1] === "R" ) {
         console.log( "Can't touch this!" );
     }
+    else if(this.board[this.player.y][this.player.x + 1] === "T" ) {
+        alert("Yeehah!\nYou found the treasure!");
+        location.href = "file:///Users/ingvar/Documents/Ironhack/3.Projects/1.Browser-game/index.html";
+    }
     else {
         console.log( "Player moved right!" );
         this.player.x = this.player.x + 1;
         this.board[this.player.y][this.player.x] = "P";    
         this.board[this.player.y][this.player.x - 1] = "V";
     }
+    $( ".movements-left" ).text( moveCounter );
+    this.board[9][9] = "E";
 };
 
 
@@ -114,6 +139,7 @@ Game.prototype.moveRight = function() {
 
 var body = document.querySelector( "body" );
 body.onkeydown = function() {
+    countdown();
 
     switch (event.keyCode) {
         
@@ -139,6 +165,7 @@ body.onkeydown = function() {
     };
 
     updateBoard();
+    // removeOos();
     
 };
 
@@ -163,6 +190,7 @@ for( var i = 0; i < 19; i++ ) {
 function updateBoard() {
     $( ".tile" ).removeClass( "player" );
     $( ".tile" ).removeClass( "unvisited" );
+    $( ".tile" ).addClass( "oos" );
     
     for( var i = 0; i < 19; i++ ) {
         for( var j = 0; j < 19; j++ ) {
@@ -176,22 +204,78 @@ function updateBoard() {
             if( player.board[i][j] == "R" ) {
                 $( "#" + i + "-" + j ).addClass( "rock" );
             }
+            if( player.board[i][j] == "T" ) {
+                $( "#" + i + "-" + j ).addClass( "treasure" );
+            }
+            if( player.board[i][j] == "E" ) {
+                $( "#" + i + "-" + j ).addClass( "entrance" );
+            }
+            if( player.board[i+1][j] == "P" ) {
+                $( "#" + i + "-" + j ).removeClass( "oos" );
+            }
+            if( player.board[i+2][j] == "P" ) {
+                $( "#" + i + "-" + j ).removeClass( "oos" );
+            }
+            if( player.board[i][j+1] == "P" ) {
+                $( "#" + i + "-" + j ).removeClass( "oos" );
+            }
+            if( player.board[i][j+2] == "P" ) {
+                $( "#" + i + "-" + j ).removeClass( "oos" );
+            }
+            if( player.board[i+1][j+1] == "P" ) {
+                $( "#" + i + "-" + j ).removeClass( "oos" );
+            }
+            if( player.board[i][j] == "V" ) {
+                $( "#" + i + "-" + j ).removeClass( "oos" );
+            }
+            // $( "#" + i + "-" + j ).removeClass( "oos" );
+            // $( "#" + i-1 + "-" + j ).removeClass( "oos" );
+            // $( "#" + i-2 + "-" + j ).removeClass( "oos" );
+            // $( "#" + i+1 + "-" + j ).removeClass( "oos" );
+            // $( "#" + i+2 + "-" + j ).removeClass( "oos" );
+            // $( "#" + i + "-" + j-1 ).removeClass( "oos" );
+            // $( "#" + i + "-" + j-2 ).removeClass( "oos" );
+            // $( "#" + i + "-" + j+1 ).removeClass( "oos" );
+            // $( "#" + i + "-" + j+2 ).removeClass( "oos" );
+            // $( "#" + i-1 + "-" + j-1 ).removeClass( "oos" );
+            // $( "#" + i-1 + "-" + j+1 ).removeClass( "oos" );
+            // $( "#" + i+1 + "-" + j-1 ).removeClass( "oos" );
+            // $( "#" + i+1 + "-" + j+1 ).removeClass( "oos" );
         }
     }
 }
 updateBoard();
 
-// player.board.forEach( function( row ) {
-//     row.forEach( function( tile ) {
-//         if( tile == "P" ) {
-//             tile.addClass( "player" );
-//         }
-//     });
-// });
+// function removeOos() {
+//     player.board[player.y][player.x].removeClass( "oos" );
+//     player.board[player.y-1][player.x].removeClass( "oos" );
+//     player.board[player.y-2][player.x].removeClass( "oos" );
+//     player.board[player.y+1][player.x].removeClass( "oos" );
+//     player.board[player.y+2][player.x].removeClass( "oos" );
+//     player.board[player.y][player.x-1].removeClass( "oos" );
+//     player.board[player.y][player.x-2].removeClass( "oos" );
+//     player.board[player.y][player.x+1].removeClass( "oos" );
+//     player.board[player.y][player.x+2].removeClass( "oos" );
+//     player.board[player.y-1][player.x-1].removeClass( "oos" );
+//     player.board[player.y-1][player.x+1].removeClass( "oos" );
+//     player.board[player.y+1][player.x-1].removeClass( "oos" );
+//     player.board[player.y+1][player.x+1].removeClass( "oos" );
+// }
+// removeOos();
 
 
-// var x = player.player.x
-// var y = player.player.y
-// var playerPos = $( "player.board" )[y][x];
-// console.log(playerPos);
 
+
+/////////////////////////////////////////////////
+//////////////// MOVEMENTS LEFT /////////////////
+
+var moveCounter = 100;
+$( ".movements-left" ).text( moveCounter );
+
+function countdown() {
+    moveCounter--;
+    if( moveCounter < 0 ) {
+        alert( "You run out of movement points!\nTry again!");
+        location.href = "file:///Users/ingvar/Documents/Ironhack/3.Projects/1.Browser-game/index.html";
+    };
+}

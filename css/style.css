@@ -49,7 +49,7 @@ h1 {
  * ----------
  */
 
-.game-border {
+.game {
     min-width: 502px;
     min-height: 502px;
     padding: 10px;
@@ -98,7 +98,7 @@ h1 {
 }
 
 .rock {
-    background-image: url("./../images/rock/rock3.png");
+    background-image: url("./../images/rock/rock2test.png");
     background-position: center;
     background-size: cover;
 }
@@ -107,7 +107,43 @@ h1 {
     background-image: url("./../images/ground/unvisited-ground.png");
 }
 
+.oos {
+    background-image: url("./../images/ground/oos-ground.png");
+}
+
 .player {
-    background-color: rgb(218, 137, 32);
-    background-image: none;
+    /* background-color: rgb(218, 137, 32); */
+    background-image: url("./../images/dwarf/dwarf-player.png");
+    background-position: center;
+    background-size: cover;
+}
+
+.treasure {
+    background-image: url("./../images/treasure/treasure.png");
+    background-position: center;
+    background-size: cover;
+}
+
+.entrance {
+    background-image: url("./../images//ladders/ladder3.png");
+    background-position: center;
+    background-size: cover;
+}
+
+
+
+
+/*
+ * CHAT BUBBLES
+ * ------------
+ */
+
+#cant-go,
+#cant-touch,
+#my-feet,
+#there-yet
+{
+    width: 252px;
+    height: 140px;
+    position: relative;
 }
