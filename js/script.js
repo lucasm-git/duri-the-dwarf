@@ -57,7 +57,7 @@ Game.prototype.moveUp = function() {
     }
     else if(this.board[this.player.y - 1][this.player.x] === "T" ) {
         alert("Yeehah!\nYou found the treasure!");
-        location.href = "file:///Users/ingvar/Documents/Ironhack/3.Projects/1.Browser-game/index.html";
+        location.reload();
     }
     else {
         console.log( "Player moved up!" );
@@ -78,7 +78,7 @@ Game.prototype.moveDown = function() {
     }
     else if(this.board[this.player.y + 1][this.player.x] === "T" ) {
         alert("Yeehah!\nYou found the treasure!");
-        location.href = "file:///Users/ingvar/Documents/Ironhack/3.Projects/1.Browser-game/index.html";
+        location.reload();
     }
     else {
         console.log( "Player moved down!" );
@@ -99,7 +99,7 @@ Game.prototype.moveLeft = function() {
     }
     else if(this.board[this.player.y][this.player.x - 1] === "T" ) {
         alert("Yeehah!\nYou found the treasure!");
-        location.href = "file:///Users/ingvar/Documents/Ironhack/3.Projects/1.Browser-game/index.html";
+        location.reload();
     }
     else {
         console.log( "Player moved left!" );
@@ -120,7 +120,7 @@ Game.prototype.moveRight = function() {
     }
     else if(this.board[this.player.y][this.player.x + 1] === "T" ) {
         alert("Yeehah!\nYou found the treasure!");
-        location.href = "file:///Users/ingvar/Documents/Ironhack/3.Projects/1.Browser-game/index.html";
+        location.reload();
     }
     else {
         console.log( "Player moved right!" );
@@ -290,6 +290,6 @@ function countdown() {
     moveCounter--;
     if( moveCounter < 0 ) {
         alert( "You run out of movement points!\nTry again!");
-        location.href = "file:///Users/ingvar/Documents/Ironhack/3.Projects/1.Browser-game/index.html";
+        location.reload();
     };
 }
