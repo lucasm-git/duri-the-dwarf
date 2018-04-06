@@ -10,9 +10,14 @@
    }
 
 @font-face {
-    font-family: "Pixel";
-    src: url( "./../fonts/pixel.otf" ) format( "otf" );
+    font-family: "Minecraft";
+    src: url( "./../fonts/Minecraft.ttf" ) format( "ttf" );
     }
+
+@font-face {
+    font-family: "Alterebro Pixel Font";
+    src: url( "./../fonts/alterebro-pixel-font.ttf") format( "ttf" );
+}
 
 body {
     display: flex;
@@ -41,7 +46,11 @@ h1 {
 }
 
 h2 {
-    font-family: "Pixel", sans-serif;
+    font-family: "Alterebro Pixel Font", sans-serif;
+    font-weight: lighter;
+    letter-spacing: 0.1em;
+    font-size: 3rem;
+    margin: 20px 0 0 0;
     text-align: center;
 }
 
@@ -165,11 +174,19 @@ h2 {
  * ------------
  */
 
-#cant-go
-/* #cant-touch,
-#my-feet,
-#there-yet */
-{
+#cant-go {
+    width: 244px;
+    height: 140px;
+}
+#cant-stone {
+    width: 244px;
+    height: 140px;
+}
+#my-feet {
+    width: 244px;
+    height: 140px;
+}
+#there-yet {
     width: 244px;
     height: 140px;
 }

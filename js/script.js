@@ -48,12 +48,30 @@ var player = new Game();
 ///////////////////////////////////////////////////////
 //////////////// PLAYER MOVE FUNCTIONS ////////////////
 
+function cantGo() {
+    $( "#cant-stone" ).hide();
+    $( "#there-yet" ).hide();
+    $( "#my-feet" ).hide();
+    $( "#cant-go" ).hide();
+    $( "#cant-go" ).toggle();
+    $( "#cant-go" ).delay(1500).fadeOut();
+}
+
+function cantStone() {
+    $( "#cant-go" ).hide();
+    $( "#there-yet" ).hide();
+    $( "#my-feet" ).hide();
+    $( "#cant-stone" ).hide();
+    $( "#cant-stone" ).toggle();
+    $( "#cant-stone" ).delay(1500).fadeOut();
+}
+
 Game.prototype.moveUp = function() {
     if( this.player.y == 0 ) {
-        console.log( "Can't go there!" );
+        cantGo();
     }
     else if(this.board[this.player.y - 1][this.player.x] === "R" ) {
-        console.log( "Can't touch this!" );
+        cantStone();
     }
     else if(this.board[this.player.y - 1][this.player.x] === "T" ) {
         alert("Yeehah!\nYou found the treasure!");
@@ -71,10 +89,10 @@ Game.prototype.moveUp = function() {
 
 Game.prototype.moveDown = function() {
     if( this.player.y == this.board.length -1 ) {
-        console.log( "Can't go there!" );
+        cantGo();
     }
     else if(this.board[this.player.y + 1][this.player.x] === "R" ) {
-        console.log( "Can't touch this!" );
+        cantStone();
     }
     else if(this.board[this.player.y + 1][this.player.x] === "T" ) {
         alert("Yeehah!\nYou found the treasure!");
@@ -92,10 +110,10 @@ Game.prototype.moveDown = function() {
 
 Game.prototype.moveLeft = function() {
     if( this.player.x == 0 ) {
-        console.log( "Can't go there!" );
+        cantGo();
     }
     else if(this.board[this.player.y][this.player.x - 1] === "R" ) {
-        console.log( "Can't touch this!" );
+        cantStone();
     }
     else if(this.board[this.player.y][this.player.x - 1] === "T" ) {
         alert("Yeehah!\nYou found the treasure!");
@@ -113,10 +131,10 @@ Game.prototype.moveLeft = function() {
 
 Game.prototype.moveRight = function() {
     if( this.player.x == this.board.length -1 ) {
-        console.log( "Can't go there!" );
+        cantGo();
     }
     else if(this.board[this.player.y][this.player.x + 1] === "R" ) {
-        console.log( "Can't touch this!" );
+        cantStone();
     }
     else if(this.board[this.player.y][this.player.x + 1] === "T" ) {
         alert("Yeehah!\nYou found the treasure!");
@@ -277,7 +295,7 @@ function removeOos() {
     }
 }
 
-// console.log( $( "#" + (player.player.y-1) + "-" + (player.player.x) ) );
+
 
 
 /////////////////////////////////////////////////
@@ -288,8 +306,33 @@ $( ".movements-left" ).text( moveCounter );
 
 function countdown() {
     moveCounter--;
+    if( moveCounter === 60 ) {
+        $( "#cant-stone" ).hide();
+        $( "#cant-go" ).hide();
+        $( "#my-feet" ).hide();
+        $( "#there-yet" ).toggle();
+        $( "#there-yet" ).delay( 1500 ).fadeOut();
+    }
+    if( moveCounter === 25 ) {
+        $( "#cant-stone" ).hide();
+        $( "#cant-go" ).hide();
+        $( "#there-yet" ).hide();
+        $( "#my-feet" ).toggle();
+        $( "#my-feet" ).delay( 1500 ).fadeOut();
+    }
     if( moveCounter < 0 ) {
         alert( "You run out of movement points!\nTry again!");
         location.reload();
     };
 }
+
+
+
+
+///////////////////////////////////////////////
+//////////////// CHAT BUBBLES /////////////////
+
+$( "#cant-go" ).hide();
+$( "#cant-stone" ).hide();
+$( "#my-feet" ).hide();
+$( "#there-yet" ).hide();
