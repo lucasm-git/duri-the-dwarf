@@ -46,6 +46,29 @@ var player = new Game();
 
 
 
+
+/////////////////////////////////////////////////////////
+//////////////// CHAT BUBBLES & SCREENS /////////////////
+
+$( "#cant-go" ).hide();
+$( "#cant-stone" ).hide();
+$( "#my-feet" ).hide();
+$( "#there-yet" ).hide();
+
+$( ".screen-container" ).hide();
+
+function victory() {
+    $( ".center-row" ).hide();
+    $( ".screen-container" ).show();
+}
+
+$( ".screen-container" ).click( function() {
+    location.reload();
+})
+
+
+
+
 ///////////////////////////////////////////////////////
 //////////////// PLAYER MOVE FUNCTIONS ////////////////
 
@@ -94,8 +117,9 @@ Game.prototype.moveUp = function() {
         cantStone();
     }
     else if(this.board[this.player.y - 1][this.player.x] === "T" ) {
-        alert("Yeehah!\nYou found the treasure!");
-        location.reload();
+        victory();
+        // alert("Yeehah!\nYou found the treasure!");
+        // location.reload();
     }
     else {
         this.player.y = this.player.y - 1;
@@ -118,8 +142,9 @@ Game.prototype.moveDown = function() {
         cantStone();
     }
     else if(this.board[this.player.y + 1][this.player.x] === "T" ) {
-        alert("Yeehah!\nYou found the treasure!");
-        location.reload();
+        victory();
+        // alert("Yeehah!\nYou found the treasure!");
+        // location.reload();
     }
     else {
         this.player.y = this.player.y + 1;
@@ -142,8 +167,9 @@ Game.prototype.moveLeft = function() {
         cantStone();
     }
     else if(this.board[this.player.y][this.player.x - 1] === "T" ) {
-        alert("Yeehah!\nYou found the treasure!");
-        location.reload();
+        victory();
+        // alert("Yeehah!\nYou found the treasure!");
+        // location.reload();
     }
     else {
         this.player.x = this.player.x - 1;
@@ -166,8 +192,9 @@ Game.prototype.moveRight = function() {
         cantStone();
     }
     else if(this.board[this.player.y][this.player.x + 1] === "T" ) {
-        alert("Yeehah!\nYou found the treasure!");
-        location.reload();
+        victory();
+        // alert("Yeehah!\nYou found the treasure!");
+        // location.reload();
     }
     else {
         this.player.x = this.player.x + 1;
@@ -368,14 +395,3 @@ function countdown() {
         location.reload();
     };
 }
-
-
-
-
-///////////////////////////////////////////////
-//////////////// CHAT BUBBLES /////////////////
-
-$( "#cant-go" ).hide();
-$( "#cant-stone" ).hide();
-$( "#my-feet" ).hide();
-$( "#there-yet" ).hide();

@@ -75,6 +75,7 @@ h2 {
     background: url( "./../images/canvas-border-500.png" );
     background-repeat: no-repeat;
     box-sizing: border-box;
+    margin: 0 40px;
 }
 
 .game-field {
@@ -95,18 +96,19 @@ h2 {
 }
 
 .center-row img {
-    width: 18vw;
-    height: 18vw;
+    width: 22vw;
+    height: 22vw;
 }
 
 .dwarf-col,
 .crystal-col {
-    max-width: 18vw;
+    max-width: 25vw;
 }
 
 #duri,
 .crystal-col img {
     margin: 0 0 200px 0;
+    height: 100%;
 }
 
 
@@ -190,6 +192,33 @@ h2 {
     width: 244px;
     height: 140px;
 }
+
+
+
+/*
+ * SCREENS
+ * -------
+ */
+
+.screen-container {
+    width: 80%;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.screen-container img {
+    max-height: 100vh;
+}
+
+
+
+
+/*
+ * ANIMATIONS STUFF
+ * ------------
+ */
 
 @-webkit-keyframes bounceIn {
     from,
