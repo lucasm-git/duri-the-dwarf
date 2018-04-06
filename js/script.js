@@ -38,6 +38,7 @@ function Game() {
     this.player = {
         y: 9,
         x: 9,
+        direction: "down"
     };
 };
 
@@ -66,7 +67,26 @@ function cantStone() {
     $( "#cant-stone" ).delay(1500).fadeOut();
 }
 
+
+function spriteUp() {
+    player.player.direction = "up";
+}
+
+function spriteDown() {
+    player.player.direction = "down";
+}
+
+function spriteLeft() {
+    player.player.direction = "left";
+}
+
+function spriteRight() {
+    player.player.direction = "right";
+}
+
+
 Game.prototype.moveUp = function() {
+    $( ".player" ).css({ "background-image": "" });
     if( this.player.y == 0 ) {
         cantGo();
     }
@@ -78,16 +98,19 @@ Game.prototype.moveUp = function() {
         location.reload();
     }
     else {
-        console.log( "Player moved up!" );
         this.player.y = this.player.y - 1;
         this.board[this.player.y][this.player.x] = "P";
         this.board[this.player.y + 1][this.player.x] = "V";
     }
     $( ".movements-left" ).text( moveCounter );
-    this.board[9][9] = "E";
+    if(this.board[9][9] !== "P") {
+        this.board[9][9] = "E";
+    }
+    spriteUp();
 };
 
 Game.prototype.moveDown = function() {
+    $( ".player" ).css({ "background-image": "" });
     if( this.player.y == this.board.length -1 ) {
         cantGo();
     }
@@ -99,16 +122,19 @@ Game.prototype.moveDown = function() {
         location.reload();
     }
     else {
-        console.log( "Player moved down!" );
         this.player.y = this.player.y + 1;
         this.board[this.player.y][this.player.x] = "P";    
         this.board[this.player.y - 1][this.player.x] = "V";
     }
     $( ".movements-left" ).text( moveCounter );
-    this.board[9][9] = "E";
+    if(this.board[9][9] !== "P") {
+        this.board[9][9] = "E";
+    }
+    spriteDown();
 };
 
 Game.prototype.moveLeft = function() {
+    $( ".player" ).css({ "background-image": "" });
     if( this.player.x == 0 ) {
         cantGo();
     }
@@ -120,16 +146,19 @@ Game.prototype.moveLeft = function() {
         location.reload();
     }
     else {
-        console.log( "Player moved left!" );
         this.player.x = this.player.x - 1;
         this.board[this.player.y][this.player.x] = "P";    
         this.board[this.player.y][this.player.x + 1] = "V";
     }
     $( ".movements-left" ).text( moveCounter );
-    this.board[9][9] = "E";
+    if(this.board[9][9] !== "P") {
+        this.board[9][9] = "E";
+    }
+    spriteLeft();
 };
 
 Game.prototype.moveRight = function() {
+    $( ".player" ).css({ "background-image": "" });
     if( this.player.x == this.board.length -1 ) {
         cantGo();
     }
@@ -141,13 +170,15 @@ Game.prototype.moveRight = function() {
         location.reload();
     }
     else {
-        console.log( "Player moved right!" );
         this.player.x = this.player.x + 1;
         this.board[this.player.y][this.player.x] = "P";    
         this.board[this.player.y][this.player.x - 1] = "V";
     }
     $( ".movements-left" ).text( moveCounter );
-    this.board[9][9] = "E";
+    if(this.board[9][9] !== "P") {
+        this.board[9][9] = "E";
+    }
+    spriteRight();
 };
 
 
@@ -157,8 +188,7 @@ Game.prototype.moveRight = function() {
 
 var body = document.querySelector( "body" );
 body.onkeydown = function() {
-    countdown();
-
+    
     switch (event.keyCode) {
         
         case 90: // Z key
@@ -181,9 +211,10 @@ body.onkeydown = function() {
         player.moveRight();
         break;
     };
-
+    
     updateBoard();
     removeOos();
+    countdown();
     
 };
 
@@ -211,9 +242,21 @@ function updateBoard() {
     
     for( var i = 0; i < 19; i++ ) {
         for( var j = 0; j < 19; j++ ) {
-            if( player.board[i][j] == "P" ) {
-                console.log("#" + i + "-" + j);
+            if( (player.board[i][j] == "P") && (player.player.direction == "up") ) {
                 $( "#" + i + "-" + j ).addClass( "player" );
+                $( ".player" ).css({ "background-image": "url('./images/dwarf/sprite-up.png')" });
+            }
+            if( (player.board[i][j] == "P") && (player.player.direction == "down") ) {
+                $( "#" + i + "-" + j ).addClass( "player" );
+                $( ".player" ).css({ "background-image": "url('./images/dwarf/sprite-down.png')" });
+            }
+            if( (player.board[i][j] == "P") && (player.player.direction == "left") ) {
+                $( "#" + i + "-" + j ).addClass( "player" );
+                $( ".player" ).css({ "background-image": "url('./images/dwarf/sprite-left.png')" });
+            }
+            if( (player.board[i][j] == "P") && (player.player.direction == "right") ) {
+                $( "#" + i + "-" + j ).addClass( "player" );
+                $( ".player" ).css({ "background-image": "url('./images/dwarf/sprite-right.png')" });
             }
             if( player.board[i][j] == "U" ) {
                 $( "#" + i + "-" + j ).addClass( "unvisited" );
