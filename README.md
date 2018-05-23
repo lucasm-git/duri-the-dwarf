@@ -1,6 +1,6 @@
 # Duri The Dwarf
 
-
+![Ironhack logo](./images/ironhack-logo.png)
 ## Ironhack Project #1
 From March to June 2018 I attended a **Full Stack Web Development Bootcamp** in Paris with [Ironhack](http://www.ironhack.com/en).
 
