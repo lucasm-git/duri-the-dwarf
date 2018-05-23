@@ -17,6 +17,8 @@ The program was very dense yet well structured and I learnt the following tech s
 
 Duri The Dwarf is the first of three projects I did during the bootcamp, hope you enjoy it!
 
+[Here's the game!](https://lucasm-git.github.io/duri-the-dwarf/)
+
 
 ## Context
 The 1st project happened after two weeks of learning. At this point, we had covered:
