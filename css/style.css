@@ -142,6 +142,16 @@ h2 {
     background-position: center;
     background-size: cover;
 }
+.item {
+    background-image: url("./../images/items/item_one.png");
+    background-position: center;
+    background-size: cover;
+}
+.item-two {
+    background-image: url(./../images/items/item-two.png);
+    background-position: center;
+    background-size: cover;
+}
 
 .oos {
     background-image: url("./../images/ground/oos-ground.png");
@@ -191,6 +201,10 @@ h2 {
 #there-yet {
     width: 244px;
     height: 140px;
+}
+#collect-item {
+    width:244px;
+    height: 144px;
 }
 
 
