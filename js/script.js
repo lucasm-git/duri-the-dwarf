@@ -18,7 +18,7 @@ function Game() {
         ["U", "R", "U", "U", "U", "R", "U", "R", "U", "U", "U", "U", "R", "U", "U", "U", "U", "U", "R"],
         ["U", "R", "U", "U", "U", "U", "U", "R", "U", "R", "U", "U", "R", "U", "U", "R", "U", "U", "R"],
         ["U", "U", "U", "R", "U", "R", "U", "R", "U", "R", "R", "U", "R", "U", "R", "U", "R", "U", "R"],
-        ["U", "U", "R", "U", "U", "R", "U", "U", "U", "R", "R", "U", "R", "T", "R", "U", "R", "U", "U"],
+        ["U", "U", "R", "U", "U", "R", "U", "U", "U", "R", "R", "U", "R", "U", "R", "U", "R", "U", "U"],
         ["U", "U", "R", "U", "U", "R", "U", "U", "R", "U", "U", "U", "R", "R", "R", "U", "R", "R", "U"],
         ["U", "R", "R", "U", "U", "R", "U", "R", "U", "U", "R", "U", "U", "U", "R", "U", "U", "U", "U"],
         ["U", "R", "R", "R", "U", "R", "U", "U", "U", "U", "U", "R", "R", "U", "U", "U", "R", "R", "R"],
@@ -39,10 +39,123 @@ function Game() {
         y: 9,
         x: 9,
         direction: "down"
+    
     };
+    /// used to prevent user from moving without choosing diff
+    this.difficultySelected = false;
+    this.movesChosen = 100;
+    /// used to determine when to stop decrement for bumping stone
+    this.touchedRock = false;    
+};
+var player = new Game();
+
+
+
+
+
+/////////////////////////////////////////////////////////
+////////////// ADDITIONS BY CAMERON SKENE ///////////////
+
+// difficulty setting:
+// easy difficulty: 100 moves
+// normal difficulty: 80 moves
+// hard difficulty: 50 moves 
+// Note: this range of numbers skews lower than default 100 
+// because I am removing moves left penalty for repeatedly trying 
+// to move through rock. Justification: Duri is a dwarf and should know he 
+// can't move through rock and thus won't waste the effort trying.
+
+Game.prototype.setDifficulty = function () {
+    /// hide score text
+    $(".difficulty").children().toggleClass("hidden");
+    /// insert three buttons for each difficulty
+    var html = '<div class="btn-list">'
+    html += '<button id="easy">Easy</button>'
+    html += '<button id="normal">Normal</button>'
+    html += '<button id="hard">Hard</button>'
+    html += '</div>'
+    $(".difficulty").append(html);
+    
+    var that = this;
+
+    // on clicking 'easy'
+    $("#easy").click(function () {
+        /// allow user movement
+        that.difficultySelected = true;
+         /// toggling buttons off moves the Duri main image
+        $(this).parent().toggle();
+        $(".difficulty").children().toggleClass("hidden");
+        moveCounter = 100; 
+        that.movesChosen = 100;
+        $( ".movements-left" ).text( moveCounter ); 
+    });
+        
+    // on clicking 'normal'
+    $("#normal").click(function () {
+        /// allow user movement
+        that.difficultySelected = true;
+        /// toggling buttons off moves the Duri main image
+        $(this).parent().toggle();
+        $(".difficulty").children().toggleClass("hidden");
+        moveCounter = 80; 
+        that.movesChosen = 80;
+        $( ".movements-left" ).text( moveCounter ); 
+    });    
+
+    // on clicking 'hard'
+    $("#hard").click(function () {
+        /// allow user movement
+        that.difficultySelected = true;
+         /// toggling buttons off moves the Duri main image
+        $(this).parent().toggle();
+        $(".difficulty").children().toggleClass("hidden");
+        moveCounter = 50;
+        that.movesChosen = 50; 
+        $( ".movements-left" ).text( moveCounter );     
+    });
 };
 
-var player = new Game();
+
+// random treasure generator:
+// move the treasure to a random open tile "U" OUTSIDE of five
+// tiles in every direction of Duri's starting location
+// eg treasure can only spawn rows 0-3, 15-18 incl, cols
+// 0-3, 15-18 incl.
+var treasureLocation = [];
+Game.prototype.randomTreasure = function () {
+    /// choose random row, col suitable for a 19x19 row board
+    function random () {
+        return Math.random() >= 0.5 ? Math.floor(Math.random() * (3 - 0) + 0) :
+        Math.floor(Math.random() * (18 - 15) + 15);
+    };
+    var row = random();
+    var col = random();
+    
+    // call until selection is "U"
+    if (player.board[row][col] === "U") {
+        player.board[row][col] = "T"
+        treasureLocation = [row, col]
+        return 0;
+    }
+    player.randomTreasure();
+};
+/// called at game start to hide treasure in a randomish location
+player.randomTreasure();
+
+
+// "hot or cold" hint system: 
+// if Duri really can smell nearby crystals, he should be able to use
+// his sense of smell while searching the cave.
+// thus every ~~10~~ moves, a textbox will pop up from Duri saying whether
+// the player has moved further away or closer to the crystal over the past
+// ten moves. "I can't smell it as well over here" - "I can smell it better over here"
+Game.prototype.hotOrCold = function () {
+    /// using x axis differential plus y axis differential
+    /// too complicated to calculate exactly how many moves it
+    /// would take to get to the goal. Duri can smell through rocks.
+    var distanceToGoal = Math.abs(player.player.y - treasureLocation[0]) + Math.abs(player.player.x - treasureLocation[0]);
+    return distanceToGoal;
+};
 
 
 
@@ -54,6 +167,10 @@ $( "#cant-go" ).hide();
 $( "#cant-stone" ).hide();
 $( "#my-feet" ).hide();
 $( "#there-yet" ).hide();
+
+/// added bubbles for the hint sytem
+$( "#cant-smell" ).hide();
+$( "#can-smell" ).hide();
 
 $( ".screen-container" ).hide();
 
@@ -115,6 +232,8 @@ Game.prototype.moveUp = function() {
     }
     else if(this.board[this.player.y - 1][this.player.x] === "R" ) {
         cantStone();
+        /// used to prevent moves left decrement
+        this.touchedRock = true;
     }
     else if(this.board[this.player.y - 1][this.player.x] === "T" ) {
         victory();
@@ -126,6 +245,8 @@ Game.prototype.moveUp = function() {
         this.board[this.player.y][this.player.x] = "P";
         this.board[this.player.y + 1][this.player.x] = "V";
     }
+    /// moving countdown here, see line 60. 
+    countdown();
     $( ".movements-left" ).text( moveCounter );
     if(this.board[9][9] !== "P") {
         this.board[9][9] = "E";
@@ -140,6 +261,8 @@ Game.prototype.moveDown = function() {
     }
     else if(this.board[this.player.y + 1][this.player.x] === "R" ) {
         cantStone();
+        /// used to prevent moves left decrement
+        this.touchedRock = true;
     }
     else if(this.board[this.player.y + 1][this.player.x] === "T" ) {
         victory();
@@ -151,7 +274,9 @@ Game.prototype.moveDown = function() {
         this.board[this.player.y][this.player.x] = "P";    
         this.board[this.player.y - 1][this.player.x] = "V";
     }
-    $( ".movements-left" ).text( moveCounter );
+    /// moving countdown here, see line 60. 
+    countdown();
+    $( ".movements-left" ).text( moveCounter ); 
     if(this.board[9][9] !== "P") {
         this.board[9][9] = "E";
     }
@@ -165,6 +290,8 @@ Game.prototype.moveLeft = function() {
     }
     else if(this.board[this.player.y][this.player.x - 1] === "R" ) {
         cantStone();
+        /// used to prevent moves left decrement
+        this.touchedRock = true;
     }
     else if(this.board[this.player.y][this.player.x - 1] === "T" ) {
         victory();
@@ -176,6 +303,8 @@ Game.prototype.moveLeft = function() {
         this.board[this.player.y][this.player.x] = "P";    
         this.board[this.player.y][this.player.x + 1] = "V";
     }
+    /// moving countdown here, see line 60. 
+    countdown();
     $( ".movements-left" ).text( moveCounter );
     if(this.board[9][9] !== "P") {
         this.board[9][9] = "E";
@@ -190,6 +319,8 @@ Game.prototype.moveRight = function() {
     }
     else if(this.board[this.player.y][this.player.x + 1] === "R" ) {
         cantStone();
+        /// used to prevent moves left decrement
+        this.touchedRock = true;
     }
     else if(this.board[this.player.y][this.player.x + 1] === "T" ) {
         victory();
@@ -201,6 +332,8 @@ Game.prototype.moveRight = function() {
         this.board[this.player.y][this.player.x] = "P";    
         this.board[this.player.y][this.player.x - 1] = "V";
     }
+    /// moving countdown here, see line 60. 
+    countdown();
     $( ".movements-left" ).text( moveCounter );
     if(this.board[9][9] !== "P") {
         this.board[9][9] = "E";
@@ -214,35 +347,59 @@ Game.prototype.moveRight = function() {
 //////////////// PLAYER MOVE KEYBINDINGS ////////////////
 
 var body = document.querySelector( "body" );
-body.onkeydown = function() {
-    
-    switch (event.keyCode) {
+     
+/// added event to function params to enable support in firefox
+body.onkeydown = function(event) {
+  
+    /// prevent movement if no difficulty chosen
+    if (player.difficultySelected) {
+        switch (event.keyCode) {
+            
+            /// added keycodes for standard english QWERTY (WASD) keyboard
+
+            case 90: // Z key
+            case 87: /// added W key 
+            case 38: // up arrow
+            player.moveUp();
+            break;
+            
+            case 83: // S key
+            case 40: // down arrow
+            player.moveDown();
+            break;
+            
+            case 81: // A key
+            case 65: /// added standard A keyCode
+            case 37: // left arrow
+            player.moveLeft();
+            break;
+            
+            case 68: // D key
+            case 39: // right arrow
+            player.moveRight();
+            break;
+        };
         
-        case 90: // Z key
-        case 38: // up arrow
-        player.moveUp();
-        break;
         
-        case 83: // S key
-        case 40: // down arrow
-        player.moveDown();
-        break;
-        
-        case 81: // A key
-        case 37: // left arrow
-        player.moveLeft();
-        break;
-        
-        case 68: // D key
-        case 39: // right arrow
-        player.moveRight();
-        break;
-    };
-    
-    updateBoard();
-    removeOos();
-    countdown();
-    
+        updateBoard();
+        removeOos();
+
+        /// calling countdown here means that every single
+        /// keypress will decrement moves left, even walking
+        /// into a rock. see above notes at line 60 for my
+        /// justification for moving the function call
+        /// into the player.moveXXX() method, rather than
+        /// on keypress
+
+        // countdown();
+
+
+        /// add update to score total here - for some reason,
+        /// it wasn't updating on the initail move, leading
+        /// to a 1 move difference between the var moveCounter
+        /// and what is displayed. frustrating!
+        $( ".movements-left" ).text( moveCounter )
+    }
 };
 
 
@@ -370,16 +527,28 @@ function removeOos() {
 
 /////////////////////////////////////////////////
 //////////////// MOVEMENTS LEFT /////////////////
-
-var moveCounter = 100;
+/// call set difficulty method to generate buttons.
+player.setDifficulty()
+var moveCounter = 0;
 $( ".movements-left" ).text( moveCounter );
 
 function countdown() {
-    moveCounter--;
-    if( moveCounter === 60 ) {
+    /// adding conditional logic here to exclude decrement for
+    /// walking into a rock. see line 60. 
+    if (!player.touchedRock) {
+        moveCounter--;
+    };
+    player.touchedRock = false;
+    
+    /// changed "there-yet" condition to be lower so it can fire
+    /// on a "hard" game of only 50 moves
+    if( moveCounter === 40 ) {
         $( "#cant-stone" ).hide();
         $( "#cant-go" ).hide();
         $( "#my-feet" ).hide();
+        /// adding hint system bubbles 
+        $( "#cant-smell" ).hide();
+        $( "#can-smell" ).hide();
         $( "#there-yet" ).toggle();
         $( "#there-yet" ).delay( 1500 ).fadeOut();
     }
@@ -387,11 +556,119 @@ function countdown() {
         $( "#cant-stone" ).hide();
         $( "#cant-go" ).hide();
         $( "#there-yet" ).hide();
+        /// adding hint system bubbles 
+        $( "#cant-smell" ).hide();
+        $( "#can-smell" ).hide();
         $( "#my-feet" ).toggle();
         $( "#my-feet" ).delay( 1500 ).fadeOut();
     }
     if( moveCounter < 0 ) {
         alert( "You run out of movement points!\nTry again!");
         location.reload();
-    };
+    };  
+    /// adding player.hotOrCold() calls here based on how many moves have been taken  
+    // 15 moves taken
+    if (moveCounter - player.movesChosen === -15) {
+        if (player.hotOrCold() >= 8) {
+            /// player is "cold"
+            $( "#cant-stone" ).hide();
+            $( "#cant-go" ).hide();
+            $( "#there-yet" ).hide();
+            /// adding hint system bubbles 
+            $( "#my-feet" ).hide();
+            $( "#can-smell" ).hide();
+            $( "#cant-smell" ).toggle();
+            $( "#cant-smell" ).delay( 1500 ).fadeOut();
+
+        }
+        else if (player.hotOrCold() <= 7) {
+            /// player is "hot"
+            $( "#cant-stone" ).hide();
+            $( "#cant-go" ).hide();
+            $( "#there-yet" ).hide();
+            /// adding hint system bubbles 
+            $( "#my-feet" ).hide();
+            $( "#cant-smell" ).hide();
+            $( "#can-smell" ).toggle();
+            $( "#can-smell" ).delay( 1500 ).fadeOut();
+        }
+    }
+    // 25 moves taken
+    if (moveCounter - player.movesChosen === -25) {
+        if (player.hotOrCold() >= 8) {
+            /// player is "cold"
+            $( "#cant-stone" ).hide();
+            $( "#cant-go" ).hide();
+            $( "#there-yet" ).hide();
+            /// adding hint system bubbles 
+            $( "#my-feet" ).hide();
+            $( "#can-smell" ).hide();
+            $( "#cant-smell" ).toggle();
+            $( "#cant-smell" ).delay( 1500 ).fadeOut();
+
+        }
+        else if (player.hotOrCold() <= 7) {
+            /// player is "hot"
+            $( "#cant-stone" ).hide();
+            $( "#cant-go" ).hide();
+            $( "#there-yet" ).hide();
+            /// adding hint system bubbles 
+            $( "#my-feet" ).hide();
+            $( "#cant-smell" ).hide();
+            $( "#can-smell" ).toggle();
+            $( "#can-smell" ).delay( 1500 ).fadeOut();
+        }
+    }
+    /// 35 moves taken
+    if (moveCounter - player.movesChosen === -35) {
+        if (player.hotOrCold() >= 8) {
+            /// player is "cold"
+            $( "#cant-stone" ).hide();
+            $( "#cant-go" ).hide();
+            $( "#there-yet" ).hide();
+            /// adding hint system bubbles 
+            $( "#my-feet" ).hide();
+            $( "#can-smell" ).hide();
+            $( "#cant-smell" ).toggle();
+            $( "#cant-smell" ).delay( 1500 ).fadeOut();
+
+        }
+        else if (player.hotOrCold() <= 7) {
+            /// player is "hot"
+            $( "#cant-stone" ).hide();
+            $( "#cant-go" ).hide();
+            $( "#there-yet" ).hide();
+            /// adding hint system bubbles 
+            $( "#my-feet" ).hide();
+            $( "#cant-smell" ).hide();
+            $( "#can-smell" ).toggle();
+            $( "#can-smell" ).delay( 1500 ).fadeOut();
+        }
+    }
+    /// 45 moves taken
+    if (moveCounter - player.movesChosen === -45) {
+        if (player.hotOrCold() >= 8) {
+            /// player is "cold"
+            $( "#cant-stone" ).hide();
+            $( "#cant-go" ).hide();
+            $( "#there-yet" ).hide();
+            /// adding hint system bubbles 
+            $( "#my-feet" ).hide();
+            $( "#can-smell" ).hide();
+            $( "#cant-smell" ).toggle();
+            $( "#cant-smell" ).delay( 1500 ).fadeOut();
+
+        }
+        else if (player.hotOrCold() <= 7) {
+            /// player is "hot"
+            $( "#cant-stone" ).hide();
+            $( "#cant-go" ).hide();
+            $( "#there-yet" ).hide();
+            /// adding hint system bubbles 
+            $( "#my-feet" ).hide();
+            $( "#cant-smell" ).hide();
+            $( "#can-smell" ).toggle();
+            $( "#can-smell" ).delay( 1500 ).fadeOut();
+        }
+    }
 }
